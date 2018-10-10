@@ -1,0 +1,135 @@
+<h1>{{title}}</h1>
+<h3>
+  {{title}}
+  <span [hidden]="isUnchanged">changed</span
+    <div *ngFor="let hero of heroes"> {{hero.name}}</div>
+    <app-hero-detail *ngFor="let hero of heroes" [hero]="hero"></app-hero-detail>
+    <div *ngFor="let hero of heroes; let i=index">{{i + 1}} - {{hero.name}}</div>
+    <div *ngFor="let hero of heroes; trackBy: trackByHeroes">
+      ({{hero.id}}) {{hero.name}}
+    </div>   
+    <input #heroInput> {{heroInput.value}}>
+
+    <table border=1>
+      <!--  expression calculates colspan=2 -->
+      <tr><td [attr.colspan]="1 + 1">One-Two</td></tr>
+    
+      <!-- ERROR: There is no `colspan` property to set!
+        <tr><td colspan="{{1 + 1}}">Three-Four</td></tr>
+      -->
+    
+      <tr><td>Five</td><td>Six</td></tr>
+    </table>
+
+    <!-- standard class attribute setting  -->
+<div class="bad curly special">Bad curly special</div>
+  <!-- reset/override all class names with a binding  -->
+  <div class="bad curly special"
+       [class]="badCurly">Bad curly</div>
+
+       <!-- toggle the "special" class on/off with a property -->
+<div [class.special]="isSpecial">The class binding is special</div>
+
+<!-- binding to `class.special` trumps the class attribute -->
+<div class="special"
+     [class.special]="!isSpecial">This one is not so special</div>
+     <button [style.color]="isSpecial ? 'red': 'green'">Red</button>
+<button [style.background-color]="canSave ? 'cyan': 'grey'" >Save</button>
+<button [style.font-size.em]="isSpecial ? 3 : 1" >Big</button>
+<button [style.font-size.%]="!isSpecial ? 150 : 50" >Small</button>
+<button (click)="onSave()">Save</button>
+<button on-click="onSave()">On Save</button>
+<!-- `myClick` is an event on the custom `ClickDirective` -->
+<div (myClick)="clickMessage=$event" clickable>click with myClick</div>
+<input [value]="currentHero.name"
+       (input)="currentHero.name=$event.target.value" >
+
+    <p><img src="{{heroImageUrl}}"> is the <i>interpolated</i> image.</p>
+<p><img [src]="heroImageUrl"> is the <i>property bound</i> image.</p>
+
+<p><span>"{{title}}" is the <i>interpolated</i> title.</span></p>
+<p>"<span [innerHTML]="title"></span>" is the <i>property bound</i> title.</p>
+
+evilTitle = 'Template <script>alert("evil never sleeps")</script>Syntax';
+<!--
+  Angular generates warnings for these two lines as it sanitizes them
+  WARNING: sanitizing HTML stripped some content (see http://g.co/ng/security#xss).
+ -->
+ <p><span>"{{evilTitle}}" is the <i>interpolated</i> evil title.</span></p>
+ <p>"<span [innerHTML]="evilTitle"></span>" is the <i>property bound</i> evil title.</p>
+
+  <img src="{{heroImageUrl}}" style="height:30px">
+</h3>
+<input [(ngModel)]="currentHero.name">
+<input [value]="currentHero.name"
+       (input)="currentHero.name=$event.target.value" >
+       <input
+  [ngModel]="currentHero.name"
+  (ngModelChange)="currentHero.name=$event">
+  <input
+  [ngModel]="currentHero.name"
+  (ngModelChange)="setUppercaseName($event)">
+
+<nav>
+  <a routerLink="/dashboard">Dashboard</a>
+  <a routerLink="/heroes">Heroes</a>
+  <p>My current hero is {{currentHero.name}}</p>
+  <!-- "The sum of 1 + 1 is 2" -->
+<p>The sum of 1 + 1 is {{1 + 1}}</p>
+<!-- "The sum of 1 + 1 is not 4" -->
+<p>The sum of 1 + 1 is not {{1 + 1 + getVal()}}</p>
+</nav>
+
+<div class="special">Mental Model</div>
+<img src="assets/images/hero.png">
+<img bind-src="heroImageUrl">
+<button disabled>Save</button>
+
+<button (click)="onSave($event)">Save</button>
+<button *ngFor="let hero of heroes" (click)="deleteHero(hero)">{{hero.name}}</button>
+<form #heroForm (ngSubmit)="onSubmit(heroForm)"> ... </form>
+<button (click)="deleteHero()">Delete hero
+
+<!-- Bind button disabled state to `isUnchanged` property -->
+<button [disabled]="isUnchanged">Save</button>
+<div [ngClass]="classes">[ngClass] binding to the classes property</div>
+
+<div [ngClass]="currentClasses">This div is initially saveable, unchanged, and special</div>
+<div [style.font-size]="isSpecial ? 'x-large' : 'smaller'" >
+  This div is x-large or smaller.
+</div>
+
+<div [ngStyle]="currentStyles">
+  This div is initially italic, normal weight, and extra large (24px).
+</div>
+
+  <!-- create and set an aria attribute for assistive technology -->
+<button [attr.aria-label]="actionName">{{actionName}} with Aria</button>
+
+  <!-- Normal HTML -->
+  <div class="special">Mental Model</div>
+
+  <!-- toggle the "special" class on/off with a property -->
+<div [class.special]="isSpecial">The class binding is special</div>
+
+  <!-- Wow! A new element! -->
+  <app-hero-detail (deleteRequest)="deleteHero($event)" [hero]="currentHero"></app-hero-detail>
+
+  <div *ngIf="currentHero">Hello, {{currentHero.name}}</div>
+<div *ngIf="nullHero">Hello, {{nullHero.name}}</div>
+
+  <!-- isSpecial is true -->
+<div [class.hidden]="!isSpecial">Show with class</div>
+<div [class.hidden]="isSpecial">Hide with class</div>
+
+<!-- HeroDetail is in the DOM but hidden -->
+<app-hero-detail [class.hidden]="isSpecial"></app-hero-detail>
+
+<div [style.display]="isSpecial ? 'block' : 'none'">Show with style</div>
+<div [style.display]="isSpecial ? 'none'  : 'block'">Hide with style</div>
+
+  <app-sizer [size]="fontSizePx" (sizeChange)="fontSizePx=$event"></app-sizer>
+  <div [style.font-size.px]="fontSizePx">Resizable Text</div>
+
+<router-outlet></router-outlet>
+<app-messages></app-messages>
